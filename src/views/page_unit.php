@@ -10,10 +10,10 @@
 				<tr>
 		      <th>Ma</th>
 		      <th>Ten[<?php echo count($resource->units); ?>]</th>
-					<th>Ap dung</th>
-		      <th>An/hien</th>
-					<th>Tao ngay</th>
-					<th>Sua ngay</th>
+					<th class="text-align--center">Ap dung</th>
+		      <th class="text-align--center">An/hien</th>
+					<th class="text-align--center">Tao ngay</th>
+					<th class="text-align--center">Sua ngay</th>
 		    </tr>
 				<?php
 		 		foreach( $resource->units as $unit){ ?>
@@ -26,7 +26,7 @@
             <?php } ?>
 						</div>
 	        </td>
-					<td class="white-space--nowrap text-align--right"><span class="rounded background-color--yellow padding"><?php echo $unit['type']=='P' ? 'San pham' : 'Nguyen lieu';?></span></td>
+					<td class="white-space--nowrap text-align--center"><span class="rounded background-color--yellow padding"><?php echo $unit['type']=='P' ? 'San pham' : 'Nguyen lieu';?></span></td>
 	        <td class="text-align--center"><span class="circle background-color--<?php echo $unit['available']==0 ? 'red':'green';?>"></td>
 					<td>
 						<div class="rounded background-color--blue padding"><?php echo $unit['creator'];?><br/><?php echo $unit['created_date']; ?></div>

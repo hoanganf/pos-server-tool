@@ -3,7 +3,7 @@
 define('HOST','localhost');
 define('USER_NAME','root');
 define('PASSWORD','');
-define('DATABASE_NAME','anit_pos_new');
+define('DATABASE_NAME','anit_pos_server_new');
 // print result
 define('LIB_DIR','../pos-lib/');
 define('CONTROLLER_DIR','src/controllers/');

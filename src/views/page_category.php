@@ -9,12 +9,12 @@
   		<table id="category_table">
 				<tr>
 		      <th>Ma</th>
-					<th>Anh</th>
+					<th class="text-align--center">Anh</th>
 		      <th>Ten[<?php echo count($resource->categories); ?>]</th>
-					<th>Ap dung</th>
-		      <th>An/hien</th>
-					<th>Tao ngay</th>
-					<th>Sua ngay</th>
+					<th class="text-align--center">Ap dung</th>
+		      <th class="text-align--center">An/hien</th>
+					<th class="text-align--center">Tao ngay</th>
+					<th class="text-align--center">Sua ngay</th>
 		    </tr>
 				<?php
 		 		foreach( $resource->categories as $category){ ?>
@@ -29,7 +29,7 @@
             <?php } ?>
 						</div>
 	        </td>
-					<td class="white-space--nowrap text-align--right"><span class="rounded background-color--yellow padding"><?php echo $category['type']=='P' ? 'San pham' : 'Nguyen lieu';?></span></td>
+					<td class="white-space--nowrap text-align--center"><span class="rounded background-color--yellow padding"><?php echo $category['type']=='P' ? 'San pham' : 'Nguyen lieu';?></span></td>
 	        <td class="text-align--center"><span class="circle background-color--<?php echo $category['available']==0 ? 'red':'green';?>"></td>
 					<td>
 						<div class="rounded background-color--blue padding"><?php echo $category['creator'];?><br/><?php echo $category['created_date']; ?></div>
@@ -89,7 +89,7 @@
           </div>
     			<div class="padding display--inline-block">
     				<img class="width--full height--auto border--gray rounded" name="image_displayer" src="../pos-upload/files/pos/ic_no_image.png"/>
-    		    <input type="file" name="image_uploader" placeholder="Anh" onChange="uploadImageChange(this)" accept=".jpg, .jpeg, .png, .gif"/>
+    		    <input data-folder="pos/category" type="file" name="image_uploader" placeholder="Anh" onChange="uploadImageChange(this)" accept=".jpg, .jpeg, .png, .gif"/>
     				<input type="hidden" name="image" value=""/>
     			</div>
     		</div>
