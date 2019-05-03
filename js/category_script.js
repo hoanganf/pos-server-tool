@@ -1,4 +1,3 @@
-var imageHost='../pos-upload/';
 function reloadFormChangeDetector(){
   $form=$('#category_form');
   $btnEdit=$('#btn_edit');
@@ -25,7 +24,7 @@ $('#category_table tbody').on('click','tr:has(td)',function(){
   $('select[name=type]').val($this.data('type'));
   var image=$this.data('image');
   if(image!=null && image.length>0){
-    $('img[name=image_displayer]').attr('src',imageHost+image);
+    $('img[name=image_displayer]').attr('src',window.imageUrl+image);
     $('input[name=image]').val(image);
     $('input[name=image_uploader]').val('');
   }

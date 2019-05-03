@@ -1,5 +1,3 @@
-var imageHost='../pos-upload/';
-var apiUrl='../pos-server-api/';
 function reloadFormChangeDetector(){
   $form=$('#product_form');
   $btnEdit=$('#btn_edit');
@@ -17,7 +15,7 @@ function reloadFormChangeDetector(){
 }
 
 function loadProducts(cateID) {
-  var link=apiUrl+"product.php";
+  var link=window.apiUrl+"product.php";
   if(parseInt(cateID)>0){
     link+="?categoryId="+cateID;
   }
@@ -34,7 +32,7 @@ function loadProducts(cateID) {
         $row.data('id',product.id).data('name',product.name).data('category-id',product.category_id).data('unit-id',product.unit_id)
             .data('reference-price',product.reference_price).data('description',product.description).data('image',product.image).data('quantity-on-single-order',product.quantity_on_single_order);
         $row.append('<td class="text-align--center font-size--normal">'+product.id+'</td>')
-            .append('<td class="text-align--center"><img width="64px" height="64px" src="'+imageHost+((product.image!== null && product.image.length>0) ? product.image : 'files/pos/ic_no_image.png')+'"></td>')
+            .append('<td class="text-align--center"><img width="64px" height="64px" src="'+window.imageUrl+((product.image!== null && product.image.length>0) ? product.image : 'files/pos/ic_no_image.png')+'"></td>')
             .append('<td valign="top" class="width--full"><div><strong class="color--blue">'+product.name+'</strong>'+
               ((product.description.length>0) ? ('<br/><font size="1em">'+product.description+'</font>') : '')+'</div></td>')
             .append('<td class="white-space--nowrap text-align--right"><span class="rounded background-color--yellow padding">'+formatCurrency(product.reference_price)+'</span></td>')
@@ -51,7 +49,7 @@ function loadProducts(cateID) {
         else $this.removeClass('active');
       });
     }else{
-      if(response.code == 306) location.href='../login?from='+location.href;
+      if(response.code == 306) location.href=window.loginUrl+'?from='+location.href;
       else showAlertDialog('That bai',response.message,false,false);
     }
   });
@@ -66,7 +64,7 @@ function resetCheckedRestaurant(){
 //product click
 $('#product_table tbody').on('click','tr:has(td)',function(){
   var $this=$(this);
-  var link=apiUrl+'restaurantProduct.php?productId='+$this.data('id');
+  var link=window.apiUrl+'restaurantProduct.php?productId='+$this.data('id');
   $.getJSON(link, function(response){
     resetCheckedRestaurant();
     if(response.status === true){
@@ -74,7 +72,7 @@ $('#product_table tbody').on('click','tr:has(td)',function(){
         $('input[value="'+restaurant.id+'"]').prop('checked', true);
       });
     }else{
-      if(response.code == 306) location.href='../login?from='+location.href;
+      if(response.code == 306) location.href=window.loginUrl+'?from='+location.href;
     }
     $('input[name=id]').val($this.data('id'));
     $('input[name=name]').val($this.data('name'));
@@ -86,7 +84,7 @@ $('#product_table tbody').on('click','tr:has(td)',function(){
     $('input[name=default_status]').prop('checked', ($this.data('default-status')==1));
     var image=$this.data('image');
     if(image!=null && image.length>0){
-      $('img[name=image_displayer]').attr('src',imageHost+image);
+      $('img[name=image_displayer]').attr('src',window.imageUrl+image);
       $('input[name=image]').val(image);
       $('input[name=image_uploader]').val('');
     }

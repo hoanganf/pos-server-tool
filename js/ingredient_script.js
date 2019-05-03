@@ -1,5 +1,3 @@
-var imageHost='../pos-upload/';
-var apiUrl='../pos-server-api/';
 function reloadFormChangeDetector(){
   $form=$('form');
   $btnEdit=$('#btn_edit');
@@ -17,7 +15,7 @@ function reloadFormChangeDetector(){
 }
 
 function loadIngredients(cateID) {
-  var link=apiUrl+"ingredient.php";
+  var link=window.apiUrl+"ingredient.php";
   if(parseInt(cateID)>0){
     link+="?categoryId="+cateID;
   }
@@ -36,7 +34,7 @@ function loadIngredients(cateID) {
         $row.data('id',ingredient.id).data('name',ingredient.name).data('category-id',ingredient.category_id).data('unit-id',ingredient.unit_id)
             .data('reference-price',ingredient.reference_price).data('description',ingredient.description).data('image',ingredient.image);
         $row.append('<td class="text-align--center font-size--normal">'+ingredient.id+'</td>')
-            .append('<td class="text-align--center"><img width="64px" height="64px" src="'+imageHost+((ingredient.image!== null && ingredient.image.length>0) ? ingredient.image : 'files/pos/ic_no_image.png')+'"></td>')
+            .append('<td class="text-align--center"><img width="64px" height="64px" src="'+window.imageUrl+((ingredient.image!== null && ingredient.image.length>0) ? ingredient.image : 'files/pos/ic_no_image.png')+'"></td>')
             .append('<td valign="top"><div><strong class="color--blue">'+ingredient.name+'</strong>'+
               ((ingredient.description.length>0) ? ('<br/><font size="1em">'+ingredient.description+'</font>') : '')+'</div></td>')
             .append('<td class="white-space--nowrap text-align--right"><span class="rounded background-color--yellow padding">'+formatCurrency(ingredient.reference_price)+'</span></td>')
@@ -51,7 +49,7 @@ function loadIngredients(cateID) {
         else $this.removeClass('active');
       });
     }else{
-      if(response.code == 306) location.href='../login?from='+location.href;
+      if(response.code == 306) location.href=window.loginUrl+'?from='+location.href;
       else showAlertDialog('That bai',response.message,false,false);
     }
   });
@@ -67,7 +65,7 @@ function resetCheckedRestaurant(){
 //product click
 $('table tbody').on('click','tr:has(td)',function(){
   var $this=$(this);
-  /*var link=apiUrl+'restaurantIngredient.php?ingredientId='+$this.data('id');
+  /*var link=window.apiUrl+'restaurantIngredient.php?ingredientId='+$this.data('id');
   $.getJSON(link, function(response){
     resetCheckedRestaurant();
     if(response.status === true){
@@ -85,7 +83,7 @@ $('table tbody').on('click','tr:has(td)',function(){
     $('input[name=reference_price]').val(formatCurrency($this.data('reference-price')));
     var image=$this.data('image');
     if(image!=null && image.length>0){
-      $('img[name=image_displayer]').attr('src',imageHost+image);
+      $('img[name=image_displayer]').attr('src',window.imageUrl+image);
       $('input[name=image]').val(image);
       $('input[name=image_uploader]').val('');
     }
@@ -99,7 +97,7 @@ $('table tbody').on('click','tr:has(td)',function(){
   $('input[name=reference_price]').val(formatCurrency($this.data('reference-price')));
   var image=$this.data('image');
   if(image!=null && image.length>0){
-    $('img[name=image_displayer]').attr('src',imageHost+image);
+    $('img[name=image_displayer]').attr('src',window.imageUrl+image);
     $('input[name=image]').val(image);
     $('input[name=image_uploader]').val('');
   }

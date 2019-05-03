@@ -1,4 +1,3 @@
-var imageHost='../pos-upload/';
 function reloadFormChangeDetector(){
   $form=$('form');
   $btnEdit=$('#btn_edit');
@@ -26,7 +25,7 @@ $('table tbody').on('click','tr:has(td)',function(){
   $('input[name=available]').prop('checked', ($this.data('available')==1));
   var image=$this.data('image');
   if(image!=null && image.length>0){
-    $('img[name=image_displayer]').attr('src',imageHost+image);
+    $('img[name=image_displayer]').attr('src',window.imageUrl+image);
     $('input[name=image]').val(image);
     $('input[name=image_uploader]').val('');
   }
