@@ -14,6 +14,10 @@
 					$pageBuilder=new ProductPageBuilder();
 					$pageResource->isProduct=TRUE;
 					break;
+				case 'productIngredient':
+					$pageBuilder=new ProductIngredientPageBuilder();
+					$pageResource->isProductIngredient=TRUE;
+					break;
 				case 'ingredient':
 					$pageBuilder=new IngredientPageBuilder();
 					$pageResource->isIngredient=TRUE;
@@ -25,6 +29,10 @@
 				case 'unit':
 					$pageBuilder=new UnitPageBuilder();
 					$pageResource->isUnit=TRUE;
+					break;
+				case 'comment':
+					$pageBuilder=new CommentPageBuilder();
+					$pageResource->isComment=TRUE;
 					break;
 				case 'user':
 					if($pageResource->role=='A'){

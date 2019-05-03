@@ -19,7 +19,7 @@
 		 		foreach( $resource->units as $unit){ ?>
 	      <tr data-id="<?php echo $unit['id']; ?>" data-name="<?php echo $unit['name']; ?>" data-description="<?php echo $unit['description']; ?>" data-available="<?php echo $unit['available']; ?>" data-type="<?php echo $unit['type']; ?>">
 					<td class="text-align--center font-size--normal"><?php echo $unit['id'];?></td>
-	        <td class="display--flex flex-wrap--nowrap width--full flex-direction--row">
+	        <td valign="top">
 	          <div><strong class="color--blue"><?php echo $unit['name'];?></strong><?php
             if(isset($unit['description']) && strlen($unit['description'])>0){ ?>
               <br/><font size="1em"><?php echo $unit['description']; ?></font>
@@ -52,7 +52,7 @@
          <?php echo $resource->message;?>
       </div>
       <?php }?>
-  		<form id="unit_form" class="padding background-color--lightgray border--gray rounded" action="index.php?pageId=unit" method="POST" enctype="multipart/form-data">
+  		<form id="unit_form" class="padding background-color--lightgray border--gray rounded" action="index.php?pageId=unit" method="POST">
   	    <!--label for="name">Ma don vi</label-->
   	    <input type="hidden" name="id" placeholder="Ma don vi" readonly>
 
@@ -73,7 +73,7 @@
           <div class="row-divide__col-50">
 						<label class="display--block margin white-space--nowrap" for="available">An/Hien</label>
 						<label class="toggle-switch">
-							<input type="checkbox" name="available" value="1">
+							<input type="checkbox" name="available" value="1" checked>
 							<span class="toggle-switch__slider"></span>
 						</label>
           </div>

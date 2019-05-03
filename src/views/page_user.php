@@ -51,7 +51,7 @@
          <?php echo $resource->message;?>
       </div>
       <?php }?>
-  		<form class="padding background-color--lightgray border--gray rounded" action="index.php?pageId=user" method="POST" enctype="multipart/form-data">
+  		<form class="padding background-color--lightgray border--gray rounded" action="index.php?pageId=user" method="POST">
         <label for="user_name" class="display--block margin">Ten dang nhap</label>
   	    <input type="text" name="user_name" class="rounded border--gray" placeholder="Ten dang nhap" required>
 
@@ -65,7 +65,7 @@
   	    <input type="text" name="name" class="rounded border--gray" placeholder="Ten nguoi dung" required>
 
 				<div class="row-divide">
-          <div class="row-divide__col-50">
+          <div class="row-divide__col-25">
 						<label for="role" class="display--block margin">Quyen truy cap</label>
 						<select name="role" required>
 							<option value="A">Chu</option>
@@ -73,19 +73,21 @@
               <option value="C">Nhan vien</option>
 						</select>
           </div>
-          <div class="row-divide__col-50">
+          <div class="row-divide__col-25">
             <label for="salary_type" class="display--block margin">Luong</label>
 						<select name="salary_type" required>
 							<option value="DATE">Ngay</option>
 							<option value="TIME">Gio</option>
 						</select>
           </div>
+          <div class="row-divide__col-25">
+            <label class="display--block margin white-space--nowrap" for="available">An/Hien</label>
+            <label class="toggle-switch">
+              <input type="checkbox" name="available" value="1" checked>
+              <span class="toggle-switch__slider"></span>
+            </label>
+          </div>
         </div>
-        <label class="display--block margin white-space--nowrap" for="available">An/Hien</label>
-        <label class="toggle-switch">
-          <input type="checkbox" name="available" value="1">
-          <span class="toggle-switch__slider"></span>
-        </label>
         <div class="row-divide width--full margin--top sticky--bottom">
           <button id="btn_edit" name="action" value="edit" class="row-divide__col-50 hover--blue rounded padding">Sua</button>
           <button id="btn_add" name="action" value="add" class="row-divide__col-50 hover--green rounded padding">Them</button>

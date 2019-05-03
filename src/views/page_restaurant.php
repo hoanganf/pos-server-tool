@@ -23,7 +23,7 @@
           data-phone="<?php echo $restaurant['phone']; ?>" data-address="<?php echo $restaurant['address']; ?>" data-description="<?php echo $restaurant['description']; ?>" data-access-key="<?php echo $restaurant['access_key']; ?>">
 					<td class="text-align--center font-size--normal"><?php echo $restaurant['id'];?></td>
           <td class="text-align--center"><img width="64px" height="64px" src="../pos-upload/<?php echo !empty($restaurant['image']) ? $restaurant['image'] : "files/pos/ic_no_image.png";  ?>"/></td>
-	        <td class="display--flex flex-wrap--nowrap width--full flex-direction--row">
+	        <td valign="top">
 	          <div><strong class="color--blue"><?php echo $restaurant['name'];?></strong><?php
             if(isset($restaurant['description']) && strlen($restaurant['description'])>0){ ?>
               <br/><font size="1em"><?php echo $restaurant['description']; ?></font>
@@ -80,13 +80,13 @@
 	  			<label for="description" class="display--block margin">Mo ta</label>
 	  	    <textarea name="description" class="rounded border--gray width--full resize--vertical" placeholder="Mo ta ve nha hang"></textarea>
 
-          <label class="display--block margin white-space--nowrap" for="available">An/Hien</label>
-          <label class="toggle-switch">
-            <input type="checkbox" name="available" value="1">
-            <span class="toggle-switch__slider"></span>
-          </label>
         </div>
     		<div class="row-divide__col-50 padding--left-20">
+          <label class="display--block margin white-space--nowrap" for="available">An/Hien</label>
+          <label class="toggle-switch">
+            <input type="checkbox" name="available" value="1" checked>
+            <span class="toggle-switch__slider"></span>
+          </label>
           <div class="display--block margin">
             <label for="imageToUpload" class="display--inline-block" id="label_image">Hinh anh</label><div class="loader color--blue display--inline-block"></div>
           </div>

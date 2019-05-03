@@ -20,6 +20,7 @@
           <th class="text-align--center">Anh</th>
           <th>Ten[<?php echo count($resource->products); ?>]</th>
           <th class="text-align--center">Gia tham khao</th>
+          <th class="text-align--center">Trang thai</th>
           <th class="text-align--center">SL/order</th>
           <th class="text-align--center">Tao ngay</th>
 					<th class="text-align--center">Sua ngay</th>
@@ -28,10 +29,10 @@
 	      foreach($resource->products as $product){ ?>
         <tr data-id="<?php echo $product['id']; ?>" data-name="<?php echo $product['name']; ?>" data-category-id="<?php echo $product['category_id']; ?>" data-unit-id="<?php echo $product['unit_id']; ?>"
           data-reference-price="<?php echo $product['reference_price']; ?>" data-description="<?php echo $product['description']; ?>" data-image="<?php echo $product['image']; ?>"
-          data-quantity-on-single-order="<?php echo $product['quantity_on_single_order']; ?>">
+          data-quantity-on-single-order="<?php echo $product['quantity_on_single_order']; ?>" data-default-status="<?php echo $product['default_status']; ?>">
           <td class="text-align--center font-size--normal"><?php echo $product['id'];?></td>
           <td class="text-align--center"><img width="64px" height="64px" src="../pos-upload/<?php echo !empty($product['image']) ? $product['image'] : "files/pos/ic_no_image.png";  ?>"/></td>
-          <td class="display--flex flex-wrap--nowrap width--full flex-direction--row">
+          <td valign="top" class="width--full">
             <div><strong class="color--blue"><?php echo $product['name'];?></strong><?php
             if(isset($product['description']) && strlen($product['description'])>0){ ?>
               <br/><font size="1em"><?php echo $product['description']; ?></font>
@@ -39,6 +40,7 @@
             </div>
           </td>
           <td class="white-space--nowrap text-align--right"><span class="rounded background-color--yellow padding"><?php echo number_format($product['reference_price']);?></span></td>
+          <td class="text-align--center"><span class="circle background-color--<?php echo $product['default_status']==0 ? 'red':'green';?>"></td>
           <td class="text-align--center"><?php echo $product['quantity_on_single_order'];?></td>
           <td>
 						<div class="rounded background-color--blue padding"><?php echo $product['creator'];?><br/><?php echo $product['created_date']; ?></div>
@@ -73,15 +75,29 @@
   	    <input type="text" name="name" class="rounded border--gray" placeholder="Ten san pham" required>
 
         <div class="row-divide">
-        <div class="row-divide__col-50">
-          <label for="reference_price" class="display--block white-space--nowrap margin">Gia tham khao</label>
-          <input type="text" name="reference_price" class="rounded border--gray" placeholder="Gia tham khao" required>
+          <div class="row-divide__col-50">
+            <label for="reference_price" class="display--block white-space--nowrap margin">Gia tham khao</label>
+            <input type="text" name="reference_price" class="rounded border--gray" placeholder="Gia tham khao" required>
+          </div>
+          <div class="row-divide__col-50">
+            <label for="quantity_on_single_order" class="display--block margin white-space--nowrap">So luong/1 order</label>
+            <input type="number" class="rounded border--gray" name="quantity_on_single_order" placeholder="So luong/1 lan order" required>
+          </div>
         </div>
-        <div class="row-divide__col-50">
-          <label for="quantity_on_single_order" class="display--block margin white-space--nowrap">So luong/1 order</label>
-          <input type="number" class="rounded border--gray" name="quantity_on_single_order" placeholder="So luong/1 lan order" required>
+        <?php
+        if(isset($resource->restaurants) && !empty($resource->restaurants)){ ?>
+        <label for="apply_for" class="display--block margin">Ap dung cho nha hang</label>
+        <div class="border--gray rounded padding">
+        <?php
+          foreach( $resource->restaurants as $restaurant){ ?>
+          <label class="checkbox-square"><?php echo $restaurant['name']; ?>
+            <input type="checkbox" name="checked_restaurant_ids[]" value="<?php echo $restaurant['id']; ?>">
+            <span class="checkbox-square__checkmark"></span>
+          </label>
+        <?php } ?>
         </div>
-      </div>
+        <?php
+        } ?>
 
   			<label for="description" class="display--block margin">Mo ta</label>
   	    <textarea name="description" class="rounded border--gray width--full resize--vertical" placeholder="Mo ta ve san pham"></textarea>
@@ -106,6 +122,11 @@
         			</select>
             </div>
           </div>
+          <label class="display--block margin white-space--nowrap" for="default_status">Trang thai (Che bien/khong)</label>
+          <label class="toggle-switch">
+            <input type="checkbox" name="default_status" value="1">
+            <span class="toggle-switch__slider"></span>
+          </label>
           <div class="display--block margin">
             <label for="imageToUpload" class="display--inline-block" id="label_image">Hinh anh</label><div class="loader color--blue display--inline-block"></div>
           </div>

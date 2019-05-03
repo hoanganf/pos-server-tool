@@ -9,7 +9,15 @@ class IngredientDAO extends BaseDAO{
     $sql.= 'VALUES (\''.$ingredient['name'].'\', '.$ingredient['category_id'].', '.$ingredient['unit_id'].', ';
     $sql.= $ingredient['reference_price'].', \''.$ingredient['description'].'\',\''.$ingredient['image'].'\', ';
     $sql.= '\''.$requester.'\',\''.$requester.'\')';
-    return $this->insert($sql);
+    if(isset($this->connection)){// has transaction
+      if($this->queryNotAutoClose($sql)){
+        return $this->getLastInsertId();
+      }else{
+        return -1;
+      }
+    }else{
+      return $this->insert($sql);
+    }
   }
   function edit($ingredient,$requester){
     $sql='UPDATE ingredient SET ';
@@ -22,7 +30,11 @@ class IngredientDAO extends BaseDAO{
     $sql.= 'updater=\''.$requester.'\',';
     $sql.= 'last_updated_date=now()';
     $sql.= ' WHERE id='.$ingredient['id'];
-    return $this->query($sql);
+    if(isset($this->connection)){// has transaction
+      return $this->queryNotAutoClose($sql);
+    }else{
+      return $this->query($sql);
+    }
   }
   function getIngredient($ingredientId){
     return $this->getOnceWhere('id='.$ingredientId);
@@ -30,6 +42,10 @@ class IngredientDAO extends BaseDAO{
 
   function getIngredientByCategoryId($cateId){
     return $this->getAllWhere('category_id='.$cateId);
+  }
+
+  function getAllIngredientDetail(){
+    return $this->getAllQuery('SELECT i.*, u.name as unit_name FROM '.$this->getTableName().' i LEFT JOIN unit u ON u.id=i.unit_id');
   }
 }
 ?>

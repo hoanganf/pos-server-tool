@@ -22,7 +22,7 @@
 					data-type="<?php echo $category['type']; ?>">
 					<td class="text-align--center font-size--normal"><?php echo $category['id'];?></td>
           <td class="text-align--center"><img width="64px" height="64px" src="../pos-upload/<?php echo !empty($category['image']) ? $category['image'] : "files/pos/ic_no_image.png";  ?>"/></td>
-	        <td class="display--flex flex-wrap--nowrap width--full flex-direction--row">
+	        <td valign="top">
 	          <div><strong class="color--blue"><?php echo $category['name'];?></strong><?php
             if(isset($category['description']) && strlen($category['description'])>0){ ?>
               <br/><font size="1em"><?php echo $category['description']; ?></font>
@@ -66,7 +66,9 @@
 	  			<label for="description" class="display--block margin">Mo ta</label>
 	  	    <textarea name="description" class="rounded border--gray width--full resize--vertical" placeholder="Mo ta ve danh muc"></textarea>
 
-					<div class="row-divide">
+        </div>
+    		<div class="row-divide__col-50 padding--left-20">
+          <div class="row-divide">
             <div class="row-divide__col-50">
 							<label for="type" class="display--block margin">Ap dung cho</label>
 							<select name="type" required>
@@ -77,13 +79,11 @@
             <div class="row-divide__col-50">
 							<label class="display--block margin white-space--nowrap" for="available">An/Hien</label>
 							<label class="toggle-switch">
-								<input type="checkbox" name="available" value="1">
+								<input type="checkbox" name="available" value="1" checked>
 								<span class="toggle-switch__slider"></span>
 							</label>
             </div>
           </div>
-        </div>
-    		<div class="row-divide__col-50 padding--left-20">
           <div class="display--block margin">
             <label for="imageToUpload" class="display--inline-block" id="label_image">Hinh anh</label><div class="loader color--blue display--inline-block"></div>
           </div>

@@ -8,10 +8,10 @@
   <a href="?pageId=category" <?php if($resource->isCategory){ ?>class="active" <?php }?>>Danh muc</a>
   <a href="?pageId=unit" <?php if($resource->isUnit){ ?>class="active" <?php }?>>Don vi</a>
   <div class="dropdown">
-    <button class="dropbtn">Khac</button>
+    <button class="dropbtn<?php if($resource->isComment || $resource->isProductIngredient) echo ' active' ?>">Khac</button>
     <div class="dropdown-content">
-      <a href="?pageId=none" <?php if($resource->none){ ?>class="active" <?php }?>>...</a>
-      <a href="?pageId=none" <?php if($resource->none){ ?>class="active" <?php }?>>...</a>
+      <a href="?pageId=comment" <?php if($resource->isComment){ ?>class="active" <?php }?>>Ghi chu</a>
+      <a href="?pageId=productIngredient" <?php if($resource->isProductIngredient){ ?>class="active" <?php }?>>Cong thuc mon an</a>
       <a href="?pageId=none" <?php if($resource->none){ ?>class="active" <?php }?>>...</a>
       <a href="#">Link 3</a>
     </div>

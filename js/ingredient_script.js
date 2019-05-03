@@ -1,4 +1,5 @@
 var imageHost='../pos-upload/';
+var apiUrl='../pos-server-api/';
 function reloadFormChangeDetector(){
   $form=$('form');
   $btnEdit=$('#btn_edit');
@@ -16,7 +17,7 @@ function reloadFormChangeDetector(){
 }
 
 function loadIngredients(cateID) {
-  var link="../pos-server-api/ingredient.php";
+  var link=apiUrl+"ingredient.php";
   if(parseInt(cateID)>0){
     link+="?categoryId="+cateID;
   }
@@ -27,7 +28,7 @@ function loadIngredients(cateID) {
       var $tableBody= $('table tbody');
       $tableBody.empty();
       //title
-      $tableBody.append('<tr><th>Ma</th><th class="text-align--center">Anh</th><th>['+response.ingredients.length+']Ten</th><th class="text-align--center">Gia tham khao</th><th class="text-align--center">Tao ngay</th><th class="text-align--center">Sua ngay</th></tr>');
+      $tableBody.append('<tr><th>Ma</th><th class="text-align--center">Anh</th><th>Ten['+response.ingredients.length+']</th><th class="text-align--center">Gia tham khao</th><th class="text-align--center">Tao ngay</th><th class="text-align--center">Sua ngay</th></tr>');
       $.each(response.ingredients, function(i, ingredient){
         console.log(ingredient);
 
@@ -36,7 +37,7 @@ function loadIngredients(cateID) {
             .data('reference-price',ingredient.reference_price).data('description',ingredient.description).data('image',ingredient.image);
         $row.append('<td class="text-align--center font-size--normal">'+ingredient.id+'</td>')
             .append('<td class="text-align--center"><img width="64px" height="64px" src="'+imageHost+((ingredient.image!== null && ingredient.image.length>0) ? ingredient.image : 'files/pos/ic_no_image.png')+'"></td>')
-            .append('<td class="display--flex flex-wrap--nowrap width--full flex-direction--row;"><div><strong class="color--blue">'+ingredient.name+'</strong>'+
+            .append('<td valign="top"><div><strong class="color--blue">'+ingredient.name+'</strong>'+
               ((ingredient.description.length>0) ? ('<br/><font size="1em">'+ingredient.description+'</font>') : '')+'</div></td>')
             .append('<td class="white-space--nowrap text-align--right"><span class="rounded background-color--yellow padding">'+formatCurrency(ingredient.reference_price)+'</span></td>')
             .append('<td><div class="rounded background-color--blue padding">'+ingredient.creator+'<br/>'+ingredient.created_date+'</div></td>')
@@ -53,26 +54,43 @@ function loadIngredients(cateID) {
       if(response.code == 306) location.href='../login?from='+location.href;
       else showAlertDialog('That bai',response.message,false,false);
     }
-    /*
-    var scrollMenu = $(".scroll-menu");
-    var rowCount=menu.childNodes.length;
-    var i;
-    //clear
-    for(i=0;i<rowCount;i++){
-      if(menu.childNodes[i].getAttribute("data-id")==cateID){
-        menu.childNodes[i].className='active';
-      }else{
-        menu.childNodes[i].className='';
-      }
-
-    }*/
   });
 
 }
+/*
+function resetCheckedRestaurant(){
+  $('input[name="checked_restaurant_ids[]"]:checked').each(function(){
+    $(this).prop('checked', false);
+  });
+}*/
 // create event
 //product click
 $('table tbody').on('click','tr:has(td)',function(){
   var $this=$(this);
+  /*var link=apiUrl+'restaurantIngredient.php?ingredientId='+$this.data('id');
+  $.getJSON(link, function(response){
+    resetCheckedRestaurant();
+    if(response.status === true){
+      $.each(response.restaurants, function(i, restaurant){
+        $('input[value="'+restaurant.id+'"]').prop('checked', true);
+      });
+    }else{
+      if(response.code == 306) location.href='../login?from='+location.href;
+    }
+    $('input[name=id]').val($this.data('id'));
+    $('input[name=name]').val($this.data('name'));
+    $('textarea[name=description]').val($this.data('description'));
+    $('select[name=category_id]').val($this.data('category-id'));
+    $('select[name=unit_id]').val($this.data('unit-id'));
+    $('input[name=reference_price]').val(formatCurrency($this.data('reference-price')));
+    var image=$this.data('image');
+    if(image!=null && image.length>0){
+      $('img[name=image_displayer]').attr('src',imageHost+image);
+      $('input[name=image]').val(image);
+      $('input[name=image_uploader]').val('');
+    }
+    reloadFormChangeDetector();
+  });*/
   $('input[name=id]').val($this.data('id'));
   $('input[name=name]').val($this.data('name'));
   $('textarea[name=description]').val($this.data('description'));

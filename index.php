@@ -8,14 +8,20 @@
 
 	include_once constant("MODEL_DIR").'dao/CategoryDAO.php';
 	include_once constant("MODEL_DIR").'dao/ProductDAO.php';
+	include_once constant("MODEL_DIR").'dao/ProductIngredientDAO.php';
 	include_once constant("MODEL_DIR").'dao/UnitDAO.php';
+	include_once constant("MODEL_DIR").'dao/CommentDAO.php';
 	include_once constant("MODEL_DIR").'dao/IngredientDAO.php';
+	//include_once constant("MODEL_DIR").'dao/RestaurantIngredientDAO.php'; NOT USED
 	include_once constant("MODEL_DIR").'dao/RestaurantDAO.php';
+	include_once constant("MODEL_DIR").'dao/RestaurantProductDAO.php';
 	include_once constant("MODEL_DIR").'dao/UserDAO.php';
 
 	include_once constant("MODEL_DIR").'ProductPageBuilder.php';
+	include_once constant("MODEL_DIR").'ProductIngredientPageBuilder.php';
 	include_once constant("MODEL_DIR").'CategoryPageBuilder.php';
 	include_once constant("MODEL_DIR").'UnitPageBuilder.php';
+	include_once constant("MODEL_DIR").'CommentPageBuilder.php';
 	include_once constant("MODEL_DIR").'IngredientPageBuilder.php';
 	include_once constant("MODEL_DIR").'RestaurantPageBuilder.php';
 	include_once constant("MODEL_DIR").'UserPageBuilder.php';

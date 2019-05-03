@@ -3,7 +3,9 @@ class RestaurantDAO extends BaseDAO{
   function __construct(){
      parent::__construct("restaurant");
   }
-
+  function getAllAvailableRestaurant(){
+    return $this->getAllWhere('available=1');
+  }
   function create($restaurant,$requester){
     $sql='INSERT INTO restaurant (name, phone, address, description,available, image, access_key, creator,updater) ';
     $sql.= 'VALUES (\''.$restaurant['name'].'\', ';
@@ -11,7 +13,15 @@ class RestaurantDAO extends BaseDAO{
     $sql.= '\''.$restaurant['description'].'\','.$restaurant['available'].',\'';
     $sql.= $restaurant['image'].'\', \''.$restaurant['access_key'].'\',';
     $sql.= '\''.$requester.'\',\''.$requester.'\')';
-    return $this->insert($sql);
+    if(isset($this->connection)){// has transaction
+      if($this->queryNotAutoClose($sql)){
+        return $this->getLastInsertId();
+      }else{
+        return -1;
+      }
+    }else{
+      return $this->insert($sql);
+    }
   }
   function edit($restaurant,$requester){
     $sql='UPDATE restaurant SET ';
@@ -25,7 +35,11 @@ class RestaurantDAO extends BaseDAO{
     $sql.= 'updater=\''.$requester.'\',';
     $sql.= 'last_updated_date=now()';
     $sql.= ' WHERE id='.$restaurant['id'];
-    return $this->query($sql);
+    if(isset($this->connection)){// has transaction
+      return $this->queryNotAutoClose($sql);
+    }else{
+      return $this->query($sql);
+    }
   }
 }
 ?>

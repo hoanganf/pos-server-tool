@@ -1,15 +1,15 @@
 <?php
 	//echo 'CashierPageBuilder: '.$_SERVER["PHP_SELF"];
-	class ProductPageBuilder implements PageBuilder{
+	class ProductIngredientPageBuilder implements PageBuilder{
 		public function buildHtml($resource){
 			$productDAO=new ProductDAO();
-			$restaurantDAO=new RestaurantDAO();
-			$restaurantProductDAO=new RestaurantProductDAO();
+			//$restaurantDAO=new RestaurantDAO();
+			//$restaurantProductDAO=new RestaurantProductDAO();
 			if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 				if($_POST['action'] === 'add'){
-					/** BEGIN TRANSACTION **/
+					/** //BEGIN TRANSACTION
 					$productDAO->connect();
-					/* set autocommit to off */
+					// set autocommit to off
 					$productDAO->setAutoCommit(FALSE);
 					$add=$this->createProductArray();
 					$insertedID=$productDAO->create($add,$resource->requester);
@@ -25,7 +25,7 @@
 							$isHasRestaurant=true;
 							$add['id']=$insertedID;
 							$restaurantProductDAO->connect();
-							/* set autocommit to off */
+							// set autocommit to off
 							$restaurantProductDAO->setAutoCommit(FALSE);
 							foreach ($restaurants as $restaurant) {
 								$add['available']=in_array($restaurant['id'],$restaurantIds)? 1 : 0;
@@ -59,9 +59,9 @@
 					if(isset($_POST['id']) && is_numeric($_POST['id'])){
 						$editProduct=$this->createProductArray();
 						$editProduct['id']=$_POST['id'];
-						/** BEGIN TRANSACTION **/
+						// BEGIN TRANSACTION
 						$productDAO->connect();
-						/* set autocommit to off */
+						// set autocommit to off
 						$productDAO->setAutoCommit(FALSE);
 						$updateStatus=$productDAO->edit($editProduct,$resource->requester);
 
@@ -76,7 +76,7 @@
 							if(!empty($restaurants)){
 								$isHasRestaurant=true;
 								$restaurantProductDAO->connect();
-								/* set autocommit to off */
+								// set autocommit to off
 								$restaurantProductDAO->setAutoCommit(FALSE);
 								foreach ($restaurants as $restaurant) {
 									$editProduct['available']=in_array($restaurant['id'],$restaurantIds)? 1 : 0;
@@ -110,17 +110,22 @@
 						$productDAO->commit();
 						$productDAO->close();
 						$resource->message='Sua mon thanh cong voi ma la: '.$_POST['id'];
-					}
+					}*/
 				}
 			}
-			$adapter=new RestaurantDAO();
-			$resource->restaurants=$adapter->getAllAvailableRestaurant();
 			$adapter=new CategoryDAO();
-			$resource->categories=$adapter->getCategories();
-			$resource->products=$productDAO->getAll();
-			$adapter=new UnitDAO();
-			$resource->units=$adapter->getUnits('P');
-			include constant('VIEW_DIR').'page_product.php';
+			$resource->productCategories=$adapter->getCategories('P');
+			$resource->ingredientCategories=$adapter->getCategories('I');
+			$adapter=new IngredientDAO();
+			$resource->ingredients=$adapter->getAllIngredientDetail();
+			$products=$productDAO->getAll();
+			$productIngredientDAO=new ProductIngredientDAO();
+			//get ingredients
+			foreach($products as &$product){
+				$product['ingredients']=$productIngredientDAO->getAllIngredientIdAndCountByProductId($product['id']);
+			}
+			$resource->products=$products;
+			include constant('VIEW_DIR').'page_product_ingredient.php';
 		}
 		public function createProductArray(){
 			if(!empty($_POST)){

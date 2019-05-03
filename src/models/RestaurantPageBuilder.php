@@ -2,17 +2,80 @@
 	//echo 'CashierPageBuilder: '.$_SERVER["PHP_SELF"];
 	class RestaurantPageBuilder implements PageBuilder{
 		public function buildHtml($resource){
-			$adapter=new RestaurantDAO();
+			$restaurantDAO=new RestaurantDAO();
+			$productDAO=new ProductDAO();
+			//$ingredientDAO=new IngredientDAO();
+			$restaurantProductDAO=new RestaurantProductDAO();
+			//$restaurantIngredientDAO=new RestaurantIngredientDAO();
 			if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 		    $available=isset($_POST['available']) ? $_POST['available'] : 0;
 				if($_POST['action'] === 'add'){
 					if($_POST['access_key']===$_POST['confirm_access_key']){
 						$add=$this->createRestaurantArray();
 						$add['access_key']=$_POST['access_key'];
-						$insertedID=$adapter->create($add,$resource->requester);
+						//begin tracsaction
+						$restaurantDAO->connect();
+						$restaurantDAO->setAutoCommit(FALSE);
+						$insertedID=$restaurantDAO->create($add,$resource->requester);
+						$hasProduct=false;
+						$hasIngredient=false;
+						//TODO add list product to restaurant_product
+						if($insertedID>0){
+							//add product
+							$products=$productDAO->getAll();
+							if(!empty($products)){
+								$hasProduct=TRUE;
+								$restaurantProductDAO->connect();
+								$restaurantProductDAO->setAutoCommit(FALSE);
+								foreach ($products as $product) {
+									if(!$restaurantProductDAO->create($insertedID,$product,$resource->requester)){
+										$insertedID=-1;
+										break;
+									}
+								}
+							}
+							//add ingredient
+							/*if($insertedID>0){
+								$ingredients=$ingredientDAO->getAll();
+								if(!empty($ingredients)){
+									$hasIngredient=TRUE;
+									$restaurantIngredientDAO->connect();
+									$restaurantIngredientDAO->setAutoCommit(FALSE);
+									foreach ($ingredients as $ingredient) {
+										if(!$restaurantIngredientDAO->create($insertedID,$ingredient,$resource->requester)){
+											$insertedID=-1;
+											break;
+										}
+									}
+								}
+							}*/
+						}
 						//TODO change the version of table
-						if($insertedID>0) $resource->message='Them nha hang thanh cong voi ma la: '.$insertedID;
-						else $resource->errorMessage='Them nha hang that bai';
+						if($insertedID>0){
+							if($hasProduct){
+								$restaurantProductDAO->commit();
+								$restaurantProductDAO->close();
+							}
+							/*if($hasIngredient){
+								$restaurantIngredientDAO->commit();
+								$restaurantIngredientDAO->close();
+							}*/
+							$restaurantDAO->commit();
+							$restaurantDAO->close();
+							$resource->message='Them nha hang thanh cong voi ma la: '.$insertedID;
+						}else{
+							if($hasProduct){
+								$restaurantProductDAO->rollBack();
+								$restaurantProductDAO->close();
+							}
+							/*if($hasIngredient){
+								$restaurantIngredientDAO->rollBack();
+								$restaurantIngredientDAO->close();
+							}*/
+							$restaurantDAO->rollBack();
+							$restaurantDAO->close();
+							$resource->errorMessage='Them nha hang that bai';
+						}
 					}else{
 						$resource->errorMessage='Xin vui long nhap ma truy cap';
 					}
@@ -25,14 +88,14 @@
 						if($_POST['access_key']===$_POST['confirm_access_key']){
 							$edit['access_key']=$_POST['access_key'];
 						}
-						$updateStatus=$adapter->edit($edit,$resource->requester);
+						$updateStatus=$restaurantDAO->edit($edit,$resource->requester);
 						//TODO change the version of table
 					}
 					if($updateStatus) $resource->message='Sua nha hang thanh cong voi ma la: '.$_POST['id'];
 					else $resource->errorMessage='Sua nha hang that bai';
 				}
 			}
-			$resource->restaurants=$adapter->getAll();
+			$resource->restaurants=$restaurantDAO->getAll();
 			include constant('VIEW_DIR').'page_restaurant.php';
 		}
 		public function createRestaurantArray(){

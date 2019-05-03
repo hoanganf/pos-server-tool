@@ -29,7 +29,7 @@
           data-reference-price="<?php echo $ingredient['reference_price']; ?>" data-description="<?php echo $ingredient['description']; ?>" data-image="<?php echo $ingredient['image']; ?>">
           <td class="text-align--center font-size--normal"><?php echo $ingredient['id'];?></td>
           <td class="text-align--center"><img width="64px" height="64px" src="../pos-upload/<?php echo !empty($ingredient['image']) ? $ingredient['image'] : "files/pos/ic_no_image.png";  ?>"/></td>
-          <td class="display--flex flex-wrap--nowrap width--full flex-direction--row">
+          <td valign="top">
             <div><strong class="color--blue"><?php echo $ingredient['name'];?></strong><?php
             if(isset($ingredient['description']) && strlen($ingredient['description'])>0){ ?>
               <br/><font size="1em"><?php echo $ingredient['description']; ?></font>
@@ -71,7 +71,20 @@
 
         <label for="reference_price" class="display--block white-space--nowrap margin">Gia tham khao</label>
         <input type="text" name="reference_price" class="rounded border--gray" placeholder="Gia tham khao" required>
-
+        <?php
+        /*if(isset($resource->restaurants) && !empty($resource->restaurants)){ ?>
+        <label for="apply_for" class="display--block margin">Ap dung cho nha hang</label>
+        <div class="border--gray rounded padding">
+        <?php
+          foreach( $resource->restaurants as $restaurant){ ?>
+          <label class="checkbox-square"><?php echo $restaurant['name']; ?>
+            <input type="checkbox" name="checked_restaurant_ids[]" value="<?php echo $restaurant['id']; ?>">
+            <span class="checkbox-square__checkmark"></span>
+          </label>
+        <?php } ?>
+        </div>
+        <?php
+      } */?>
   			<label for="description" class="display--block margin">Mo ta</label>
   	    <textarea name="description" class="rounded border--gray width--full resize--vertical" placeholder="Mo ta ve san pham"></textarea>
 
